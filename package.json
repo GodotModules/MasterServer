@@ -1,0 +1,25 @@
+{
+  "name": "godotlistservers",
+  "version": "1.0.0",
+  "description": "NodeJS server to list Godot lobbies for Godot Modules project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valkyrienyanko/GodotListServers.git"
+  },
+  "author": "valkyrienyanko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/valkyrienyanko/GodotListServers/issues"
+  },
+  "homepage": "https://github.com/valkyrienyanko/GodotListServers#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.17.3",
+    "nodejs-tcp-ping": "^1.0.3",
+    "ping": "^0.4.1"
+  }
+}

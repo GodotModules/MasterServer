@@ -1,7 +1,7 @@
 // Keeps track of servers (lobbies) created from Godot C# clients
 
 const DROP_SERVER_TIME = 20000
-const CHECK_SERVERS_PING_INTERVAL = 10000
+const CHECK_SERVERS_PING_INTERVAL = 5000
 
 let servers = []
 
@@ -12,7 +12,7 @@ exports.handle = (app) => {
         const server = servers.find(x => x.Name == serverName)
         if (server) {
             server.LastPing = Date.now()
-            res.status(200).send('Pong')
+            res.status(200)
         }
     })
 
@@ -23,13 +23,14 @@ exports.handle = (app) => {
     app.post('/api/servers/post', (req, res) => {
         const server = req.body
         if (servers.some(x => x.Ip == server.Ip)) {
-            res.status(200).send('Server on list already')
+            res.status(200)
             return
         }
 
         server.LastPing = Date.now()
         servers.push(server)
-        res.status(200).send('Server added to list')
+		console.log(`Added server '${server.Name}' (${servers.length})`)
+        res.status(200)
     })
 
     setInterval(() => {
@@ -40,9 +41,8 @@ exports.handle = (app) => {
             if (pingDiff > DROP_SERVER_TIME) {
                 // filter: anything true in the predicate will stay in the array, anything false will get yeeted
                 servers = servers.filter(x => x.Name !== server.Name)
-                console.log(`Server '${server.Name}' was dropped`)
+                console.log(`Removed server '${server.Name}' (${servers.length})`)
             }
-            console.log(servers.length)
         }
     }, CHECK_SERVERS_PING_INTERVAL)
 }

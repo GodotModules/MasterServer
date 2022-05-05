@@ -6,13 +6,14 @@ const CHECK_SERVERS_PING_INTERVAL = 5000
 let servers = []
 
 exports.handle = (app) => {
-    app.post('/api/ping', (req, res) => {
+    app.post('/api/servers/ping', (req, res) => {
         const serverName = req.body.Name
 
         const server = servers.find(x => x.Name == serverName)
+		
         if (server) {
             server.LastPing = Date.now()
-            res.status(200)
+            res.status(200).send('Ok')
         }
     })
 
@@ -20,18 +21,34 @@ exports.handle = (app) => {
         res.send(servers)
     })
 
-    app.post('/api/servers/post', (req, res) => {
+    app.post('/api/servers/add', (req, res) => {
         const server = req.body
         if (servers.some(x => x.Ip == server.Ip)) {
-            res.status(200)
+            res.status(200).send('Ok')
             return
         }
 
         server.LastPing = Date.now()
         servers.push(server)
 		console.log(`Added server '${server.Name}' (${servers.length})`)
-        res.status(200)
+        res.status(200).send('Ok')
     })
+	
+	app.post('/api/servers/remove', (req, res) => {
+		const ip = req.body.Ip
+		var server = servers.find(x => x.Ip == ip)
+		
+		if (server == null)
+		{
+			console.log(`Tried to remove non-existent server with ip '${ip}'`)
+			res.status(200).send('Ok')
+			return;
+		}
+		
+		servers.splice(servers.indexOf(server), 1)
+		console.log(`Removed server '${server.Name}' (${servers.length})`)
+		res.status(200).send('Ok')
+	})
 
     setInterval(() => {
         // check last time servers were pinged

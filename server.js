@@ -10,6 +10,10 @@ loadModules()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.get('/api/ping', (req, res) => {
+	res.status(200).send('Ok')
+})
+
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
 })

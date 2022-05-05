@@ -20,9 +20,28 @@ exports.handle = (app) => {
     app.get('/api/servers/get', (req, res) => {
         res.send(servers)
     })
+	
+	app.post('/api/servers/players/add', (req, res) => {
+		const ip = req.body.Ip
+		var server = servers.find(x => x.Ip == ip)
+		if (server != null)
+			server.Players++
+		
+		res.status(200).send('Ok')
+	})
+	
+	app.post('/api/servers/players/remove', (req, res) => {
+		const ip = req.body.Ip
+		var server = servers.find(x => x.Ip == ip)
+		if (server != null)
+			server.Players--
+		
+		res.status(200).send('Ok')
+	})
 
     app.post('/api/servers/add', (req, res) => {
         const server = req.body
+		server.Players = 0
         if (servers.some(x => x.Ip == server.Ip)) {
             res.status(200).send('Ok')
             return

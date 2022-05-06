@@ -1,0 +1,23 @@
+h2, body {
+    margin: 0;
+}
+
+.docs {
+    display: flex;
+}
+
+.nav {
+    padding: 20px;
+    border-style: solid;
+    border-color: red;
+}
+
+#preview {
+    padding: 20px;
+    border-style: solid;
+    border-color: blue;
+}
+
+#link {
+    color: blue;
+}
